@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#090b0d" />
+    <meta name="description" content="Turn a spare screen into a calming breathing light." />
+    <link rel="stylesheet" href="/src/styles.css" />
+    <title>CyberLighting — a screen that breathes</title>
+  </head>
+  <body>
+    <main id="stage" class="stage">
+      <div class="grain" aria-hidden="true"></div>
+      <div class="aurora aurora-one" aria-hidden="true"></div>
+      <div class="aurora aurora-two" aria-hidden="true"></div>
+      <div class="orb" aria-hidden="true"></div>
+
+      <header class="topbar">
+        <a class="brand" href="#top" aria-label="CyberLighting home">
+          <span class="brand-mark"><i></i><i></i><i></i></span>
+          <span>CyberLighting</span>
+        </a>
+        <span class="status"><b></b> Local-only light instrument</span>
+      </header>
+
+      <section id="top" class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow">A LIGHT FOR THE QUIET HOURS</p>
+          <h1 id="hero-title">Let your spare<br /><em>screen breathe.</em></h1>
+          <p class="intro">A minimal ambient light for the monitor beside you. Choose its colour, set its pace, then give the screen the room to glow.</p>
+          <button id="enter-fullscreen" class="primary-button" type="button">
+            <span class="button-icon">↗</span> Enter light mode
+          </button>
+          <p class="hint">Best on a second screen, tablet, or a quiet corner of your desk.</p>
+        </div>
+
+        <aside class="control-panel" aria-label="Breathing light controls">
+          <div class="panel-heading">
+            <div>
+              <p class="panel-kicker">LIVE SCENE</p>
+              <h2>Stillwater</h2>
+            </div>
+            <span class="live-dot" aria-label="Animation active"></span>
+          </div>
+
+          <div class="control-group color-group">
+            <div class="control-label"><span>Light colour</span><output id="color-value">#7CFFB2</output></div>
+            <div class="swatches" role="group" aria-label="Colour presets">
+              <button type="button" class="swatch mint" data-color="#7CFFB2" aria-label="Mint"></button>
+              <button type="button" class="swatch sky" data-color="#6DCAFF" aria-label="Sky blue"></button>
+              <button type="button" class="swatch lilac" data-color="#BEA3FF" aria-label="Lilac"></button>
+              <button type="button" class="swatch ember" data-color="#FF8B62" aria-label="Ember"></button>
+              <label class="swatch custom" aria-label="Choose a custom colour"><input id="color" type="color" value="#7CFFB2" /></label>
+            </div>
+          </div>
+
+          <label class="control-group" for="duration">
+            <span class="control-label"><span>Breath cycle</span><output id="duration-value">5.0s</output></span>
+            <input id="duration" type="range" min="1.2" max="12" step="0.1" value="5" />
+            <span class="range-ends"><small>Quick</small><small>Unhurried</small></span>
+          </label>
+
+          <label class="control-group" for="brightness">
+            <span class="control-label"><span>Glow intensity</span><output id="brightness-value">72%</output></span>
+            <input id="brightness" type="range" min="10" max="100" step="1" value="72" />
+          </label>
+
+          <label class="switch-row" for="low-stimulation">
+            <span><strong>Low stimulation</strong><small id="safety-note">Low stimulation is on — speed and brightness are gently capped.</small></span>
+            <input id="low-stimulation" type="checkbox" checked />
+            <span class="switch-ui" aria-hidden="true"></span>
+          </label>
+        </aside>
+      </section>
+
+      <footer class="footer">
+        <span>01 / Breathe slowly</span>
+        <button id="stage-fullscreen" class="fullscreen-link" type="button"><span id="fullscreen-label">Fill the screen</span> <b>⛶</b></button>
+        <span>NO ACCOUNT · NO TRACKING</span>
+      </footer>
+    </main>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
