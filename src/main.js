@@ -27,6 +27,24 @@ function loadSettings() {
 
 let settings = loadSettings();
 
+function toRgb(hex) {
+  const value = Number.parseInt(hex.slice(1), 16);
+  return [(value >> 16) & 255, (value >> 8) & 255, value & 255];
+}
+
+function blendChannel(start, end, progress) {
+  return Math.round((start + (end - start) * progress) * (.25 + settings.brightness / 100 * .75));
+}
+
+function renderPureColour(timestamp) {
+  const halfCycle = settings.duration * 1000;
+  const progress = (1 - Math.cos(Math.PI * (timestamp / halfCycle))) / 2;
+  const inhale = toRgb(settings.inhaleColor);
+  const exhale = toRgb(settings.exhaleColor);
+  stage.style.backgroundColor = `rgb(${blendChannel(inhale[0], exhale[0], progress)} ${blendChannel(inhale[1], exhale[1], progress)} ${blendChannel(inhale[2], exhale[2], progress)})`;
+  requestAnimationFrame(renderPureColour);
+}
+
 function saveSettings() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
 }
@@ -88,3 +106,4 @@ document.addEventListener('fullscreenchange', setFullscreenLabel);
 
 applySettings();
 setFullscreenLabel();
+requestAnimationFrame(renderPureColour);
