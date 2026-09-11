@@ -5,11 +5,13 @@ const root = document.documentElement;
 const stage = document.querySelector('#stage');
 const durationInput = document.querySelector('#duration');
 const brightnessInput = document.querySelector('#brightness');
-const colorInput = document.querySelector('#color');
+const inhaleInput = document.querySelector('#inhale-color');
+const exhaleInput = document.querySelector('#exhale-color');
 const lowStimInput = document.querySelector('#low-stimulation');
 const durationValue = document.querySelector('#duration-value');
 const brightnessValue = document.querySelector('#brightness-value');
-const colorValue = document.querySelector('#color-value');
+const inhaleValue = document.querySelector('#inhale-value');
+const exhaleValue = document.querySelector('#exhale-value');
 const fullscreenButton = document.querySelector('#enter-fullscreen');
 const stageButton = document.querySelector('#stage-fullscreen');
 const fullscreenLabel = document.querySelector('#fullscreen-label');
@@ -25,35 +27,30 @@ function loadSettings() {
 
 let settings = loadSettings();
 
-function toRgb(hex) {
-  const value = Number.parseInt(hex.slice(1), 16);
-  return `${(value >> 16) & 255}, ${(value >> 8) & 255}, ${value & 255}`;
-}
-
 function saveSettings() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
 }
 
 function applySettings() {
-  root.style.setProperty('--glow', settings.color);
-  root.style.setProperty('--glow-rgb', toRgb(settings.color));
+  root.style.setProperty('--inhale-color', settings.inhaleColor);
+  root.style.setProperty('--exhale-color', settings.exhaleColor);
+  root.style.setProperty('--accent', settings.exhaleColor);
   root.style.setProperty('--intensity', String(settings.brightness / 100));
   root.style.setProperty('--breathe-duration', `${settings.duration}s`);
 
   durationInput.value = String(settings.duration);
   brightnessInput.value = String(settings.brightness);
-  colorInput.value = settings.color;
+  inhaleInput.value = settings.inhaleColor;
+  exhaleInput.value = settings.exhaleColor;
   lowStimInput.checked = settings.lowStimulation;
   durationValue.textContent = `${settings.duration.toFixed(1)}s`;
   brightnessValue.textContent = `${settings.brightness}%`;
-  colorValue.textContent = settings.color;
+  inhaleValue.textContent = settings.inhaleColor;
+  exhaleValue.textContent = settings.exhaleColor;
   safetyNote.textContent = settings.lowStimulation
     ? 'Low stimulation is on — speed and brightness are gently capped.'
     : 'Expanded intensity is on — use in a comfortable, well-lit space.';
 
-  document.querySelectorAll('[data-color]').forEach((button) => {
-    button.classList.toggle('is-active', button.dataset.color === settings.color);
-  });
 }
 
 function updateSettings(next) {
@@ -82,13 +79,11 @@ async function toggleFullscreen() {
 
 durationInput.addEventListener('input', (event) => updateSettings({ duration: event.target.value }));
 brightnessInput.addEventListener('input', (event) => updateSettings({ brightness: event.target.value }));
-colorInput.addEventListener('input', (event) => updateSettings({ color: event.target.value }));
+inhaleInput.addEventListener('input', (event) => updateSettings({ inhaleColor: event.target.value }));
+exhaleInput.addEventListener('input', (event) => updateSettings({ exhaleColor: event.target.value }));
 lowStimInput.addEventListener('change', (event) => updateSettings({ lowStimulation: event.target.checked }));
 fullscreenButton.addEventListener('click', toggleFullscreen);
 stageButton.addEventListener('click', toggleFullscreen);
-document.querySelectorAll('[data-color]').forEach((button) => {
-  button.addEventListener('click', () => updateSettings({ color: button.dataset.color }));
-});
 document.addEventListener('fullscreenchange', setFullscreenLabel);
 
 applySettings();

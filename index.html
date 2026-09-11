@@ -10,10 +10,9 @@
   </head>
   <body>
     <main id="stage" class="stage">
-      <div class="grain" aria-hidden="true"></div>
-      <div class="aurora aurora-one" aria-hidden="true"></div>
-      <div class="aurora aurora-two" aria-hidden="true"></div>
-      <div class="orb" aria-hidden="true"></div>
+      <div class="light-field inhale-field" aria-hidden="true"></div>
+      <div class="light-field exhale-field" aria-hidden="true"></div>
+      <div class="precision-grid" aria-hidden="true"></div>
 
       <header class="topbar">
         <a class="brand" href="#top" aria-label="CyberLighting home">
@@ -27,11 +26,11 @@
         <div class="hero-copy">
           <p class="eyebrow">A LIGHT FOR THE QUIET HOURS</p>
           <h1 id="hero-title">Let your spare<br /><em>screen breathe.</em></h1>
-          <p class="intro">A minimal ambient light for the monitor beside you. Choose its colour, set its pace, then give the screen the room to glow.</p>
+          <p class="intro">Choose the two ends of a light cycle. Your screen will travel between them slowly, cleanly, and without visual noise.</p>
           <button id="enter-fullscreen" class="primary-button" type="button">
             <span class="button-icon">↗</span> Enter light mode
           </button>
-          <p class="hint">Best on a second screen, tablet, or a quiet corner of your desk.</p>
+          <p class="hint">Two colours. One pace. A calmer corner of your desk.</p>
         </div>
 
         <aside class="control-panel" aria-label="Breathing light controls">
@@ -44,20 +43,24 @@
           </div>
 
           <div class="control-group color-group">
-            <div class="control-label"><span>Light colour</span><output id="color-value">#7CFFB2</output></div>
-            <div class="swatches" role="group" aria-label="Colour presets">
-              <button type="button" class="swatch mint" data-color="#7CFFB2" aria-label="Mint"></button>
-              <button type="button" class="swatch sky" data-color="#6DCAFF" aria-label="Sky blue"></button>
-              <button type="button" class="swatch lilac" data-color="#BEA3FF" aria-label="Lilac"></button>
-              <button type="button" class="swatch ember" data-color="#FF8B62" aria-label="Ember"></button>
-              <label class="swatch custom" aria-label="Choose a custom colour"><input id="color" type="color" value="#7CFFB2" /></label>
+            <div class="control-label"><span>Colour endpoints</span><span class="cycle-label">INHALE → EXHALE</span></div>
+            <div class="endpoint-pickers">
+              <label class="endpoint-picker" for="inhale-color">
+                <span>Inhale</span><output id="inhale-value">#0D2C32</output>
+                <input id="inhale-color" type="color" value="#0D2C32" />
+              </label>
+              <span class="endpoint-divider" aria-hidden="true">→</span>
+              <label class="endpoint-picker" for="exhale-color">
+                <span>Exhale</span><output id="exhale-value">#72F3D0</output>
+                <input id="exhale-color" type="color" value="#72F3D0" />
+              </label>
             </div>
           </div>
 
           <label class="control-group" for="duration">
-            <span class="control-label"><span>Breath cycle</span><output id="duration-value">5.0s</output></span>
+            <span class="control-label"><span>Transition time</span><output id="duration-value">5.0s</output></span>
             <input id="duration" type="range" min="1.2" max="12" step="0.1" value="5" />
-            <span class="range-ends"><small>Quick</small><small>Unhurried</small></span>
+            <span class="range-ends"><small>Quick</small><small>Slow</small></span>
           </label>
 
           <label class="control-group" for="brightness">
