@@ -1,6 +1,8 @@
 import { createSettings, normalizeSettings } from './settings.js';
+import { DEFAULT_LOCALE, getCopy, normalizeLocale } from './i18n.js';
 
 const STORAGE_KEY = 'cyber-lighting.settings.v1';
+const LOCALE_KEY = 'cyber-lighting.locale.v1';
 const root = document.documentElement;
 const stage = document.querySelector('#stage');
 const durationInput = document.querySelector('#duration');
@@ -16,6 +18,7 @@ const fullscreenButton = document.querySelector('#enter-fullscreen');
 const stageButton = document.querySelector('#stage-fullscreen');
 const fullscreenLabel = document.querySelector('#fullscreen-label');
 const safetyNote = document.querySelector('#safety-note');
+const description = document.querySelector('meta[name="description"]');
 
 function loadSettings() {
   try {
@@ -26,6 +29,31 @@ function loadSettings() {
 }
 
 let settings = loadSettings();
+let locale = normalizeLocale(localStorage.getItem(LOCALE_KEY) ?? navigator.language ?? DEFAULT_LOCALE);
+
+function applyLocale() {
+  const copy = getCopy(locale);
+  document.documentElement.lang = locale === 'zh' ? 'zh-CN' : 'en';
+  document.title = copy.pageTitle;
+  description.setAttribute('content', copy.pageDescription);
+  document.querySelectorAll('[data-i18n]').forEach((element) => {
+    element.textContent = copy[element.dataset.i18n];
+  });
+  document.querySelectorAll('[data-i18n-aria]').forEach((element) => {
+    element.setAttribute('aria-label', copy[element.dataset.i18nAria]);
+  });
+  document.querySelectorAll('[data-locale]').forEach((button) => {
+    button.classList.toggle('is-active', button.dataset.locale === locale);
+  });
+  setFullscreenLabel();
+  applySettings();
+}
+
+function setLocale(nextLocale) {
+  locale = normalizeLocale(nextLocale);
+  localStorage.setItem(LOCALE_KEY, locale);
+  applyLocale();
+}
 
 function toRgb(hex) {
   const value = Number.parseInt(hex.slice(1), 16);
@@ -65,9 +93,8 @@ function applySettings() {
   brightnessValue.textContent = `${settings.brightness}%`;
   inhaleValue.textContent = settings.inhaleColor;
   exhaleValue.textContent = settings.exhaleColor;
-  safetyNote.textContent = settings.lowStimulation
-    ? 'Low stimulation is on — speed and brightness are gently capped.'
-    : 'Expanded intensity is on — use in a comfortable, well-lit space.';
+  const copy = getCopy(locale);
+  safetyNote.textContent = settings.lowStimulation ? copy.lowStimOn : copy.lowStimOff;
 
 }
 
@@ -78,9 +105,10 @@ function updateSettings(next) {
 }
 
 function setFullscreenLabel() {
+  const copy = getCopy(locale);
   const isFullscreen = document.fullscreenElement === stage;
-  fullscreenLabel.textContent = isFullscreen ? 'Exit fullscreen' : 'Fill the screen';
-  stageButton.setAttribute('aria-label', isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen');
+  fullscreenLabel.textContent = isFullscreen ? copy.exitFullscreen : copy.fillScreen;
+  stageButton.setAttribute('aria-label', isFullscreen ? copy.exitFullscreenAria : copy.enterFullscreenAria);
 }
 
 async function toggleFullscreen() {
@@ -91,7 +119,7 @@ async function toggleFullscreen() {
       await stage.requestFullscreen();
     }
   } catch {
-    fullscreenButton.textContent = 'Fullscreen unavailable';
+    fullscreenButton.textContent = getCopy(locale).fullscreenUnavailable;
   }
 }
 
@@ -103,7 +131,11 @@ lowStimInput.addEventListener('change', (event) => updateSettings({ lowStimulati
 fullscreenButton.addEventListener('click', toggleFullscreen);
 stageButton.addEventListener('click', toggleFullscreen);
 document.addEventListener('fullscreenchange', setFullscreenLabel);
+document.querySelectorAll('[data-locale]').forEach((button) => {
+  button.addEventListener('click', () => setLocale(button.dataset.locale));
+});
 
 applySettings();
+applyLocale();
 setFullscreenLabel();
 requestAnimationFrame(renderPureColour);

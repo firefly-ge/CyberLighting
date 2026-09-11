@@ -11,61 +11,67 @@
   <body>
     <main id="stage" class="stage">
       <header class="topbar">
-        <a class="brand" href="#top" aria-label="CyberLighting home">
+        <a class="brand" href="#top" aria-label="CyberLighting home" data-i18n-aria="homeAria">
           <span class="brand-mark"><i></i><i></i><i></i></span>
           <span>CyberLighting</span>
         </a>
-        <span class="status"><b></b> Local-only light instrument</span>
+        <div class="topbar-actions">
+          <span class="status"><b></b><span data-i18n="localOnly">Local-only light instrument</span></span>
+          <div class="language-switch" role="group" aria-label="Language selector" data-i18n-aria="languageAria">
+            <button type="button" data-locale="en" aria-label="English">EN</button>
+            <button type="button" data-locale="zh" aria-label="中文">中文</button>
+          </div>
+        </div>
       </header>
 
       <section id="top" class="hero" aria-labelledby="hero-title">
         <div class="hero-copy">
-          <p class="eyebrow">A LIGHT FOR THE QUIET HOURS</p>
-          <h1 id="hero-title">Let your spare<br /><em>screen breathe.</em></h1>
-          <p class="intro">Choose the two ends of a light cycle. Your screen will travel between them slowly, cleanly, and without visual noise.</p>
+          <p class="eyebrow" data-i18n="eyebrow">A light for the quiet hours</p>
+          <h1 id="hero-title"><span data-i18n="heroTitleFirst">Let your spare</span><br /><em data-i18n="heroTitleSecond">screen breathe.</em></h1>
+          <p class="intro" data-i18n="intro">Choose the two ends of a light cycle. Your screen will travel between them slowly, cleanly, and without visual noise.</p>
           <button id="enter-fullscreen" class="primary-button" type="button">
-            <span class="button-icon">↗</span> Enter light mode
+            <span class="button-icon">↗</span><span data-i18n="enterLightMode">Enter light mode</span>
           </button>
-          <p class="hint">Two colours. One pace. A calmer corner of your desk.</p>
+          <p class="hint" data-i18n="hint">Two colours. One pace. A calmer corner of your desk.</p>
         </div>
 
-        <aside class="control-panel" aria-label="Breathing light controls">
+        <aside class="control-panel" aria-label="Breathing light controls" data-i18n-aria="panelAria">
           <div class="panel-heading">
             <div>
-              <p class="panel-kicker">LIVE SCENE</p>
-              <h2>Stillwater</h2>
+              <p class="panel-kicker" data-i18n="liveScene">Live scene</p>
+              <h2 data-i18n="sceneName">Stillwater</h2>
             </div>
-            <span class="live-dot" aria-label="Animation active"></span>
+            <span class="live-dot" aria-label="Animation active" data-i18n-aria="animationActive"></span>
           </div>
 
           <div class="control-group color-group">
-            <div class="control-label"><span>Colour endpoints</span><span class="cycle-label">INHALE → EXHALE</span></div>
+            <div class="control-label"><span data-i18n="colourEndpoints">Colour endpoints</span><span class="cycle-label" data-i18n="inhaleToExhale">Inhale → exhale</span></div>
             <div class="endpoint-pickers">
               <label class="endpoint-picker" for="inhale-color">
-                <span>Inhale</span><output id="inhale-value">#0D2C32</output>
+                <span data-i18n="inhale">Inhale</span><output id="inhale-value">#0D2C32</output>
                 <input id="inhale-color" type="color" value="#0D2C32" />
               </label>
               <span class="endpoint-divider" aria-hidden="true">→</span>
               <label class="endpoint-picker" for="exhale-color">
-                <span>Exhale</span><output id="exhale-value">#72F3D0</output>
+                <span data-i18n="exhale">Exhale</span><output id="exhale-value">#72F3D0</output>
                 <input id="exhale-color" type="color" value="#72F3D0" />
               </label>
             </div>
           </div>
 
           <label class="control-group" for="duration">
-            <span class="control-label"><span>Transition time</span><output id="duration-value">5.0s</output></span>
+            <span class="control-label"><span data-i18n="transitionTime">Transition time</span><output id="duration-value">5.0s</output></span>
             <input id="duration" type="range" min="1.2" max="12" step="0.1" value="5" />
-            <span class="range-ends"><small>Quick</small><small>Slow</small></span>
+            <span class="range-ends"><small data-i18n="quick">Quick</small><small data-i18n="slow">Slow</small></span>
           </label>
 
           <label class="control-group" for="brightness">
-            <span class="control-label"><span>Glow intensity</span><output id="brightness-value">72%</output></span>
+            <span class="control-label"><span data-i18n="glowIntensity">Glow intensity</span><output id="brightness-value">72%</output></span>
             <input id="brightness" type="range" min="10" max="100" step="1" value="72" />
           </label>
 
           <label class="switch-row" for="low-stimulation">
-            <span><strong>Low stimulation</strong><small id="safety-note">Low stimulation is on — speed and brightness are gently capped.</small></span>
+            <span><strong data-i18n="lowStimulation">Low stimulation</strong><small id="safety-note">Low stimulation is on — speed and brightness are gently capped.</small></span>
             <input id="low-stimulation" type="checkbox" checked />
             <span class="switch-ui" aria-hidden="true"></span>
           </label>
@@ -73,9 +79,9 @@
       </section>
 
       <footer class="footer">
-        <span>01 / Breathe slowly</span>
+        <span data-i18n="breatheSlowly">01 / Breathe slowly</span>
         <button id="stage-fullscreen" class="fullscreen-link" type="button"><span id="fullscreen-label">Fill the screen</span> <b>⛶</b></button>
-        <span>NO ACCOUNT · NO TRACKING</span>
+        <span data-i18n="noAccount">No account · no tracking</span>
       </footer>
     </main>
     <script type="module" src="/src/main.js"></script>
