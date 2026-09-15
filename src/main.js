@@ -33,7 +33,7 @@ let locale = normalizeLocale(localStorage.getItem(LOCALE_KEY) ?? navigator.langu
 
 function applyLocale() {
   const copy = getCopy(locale);
-  document.documentElement.lang = locale === 'zh' ? 'zh-CN' : 'en';
+  document.documentElement.lang = locale;
   document.title = copy.pageTitle;
   description.setAttribute('content', copy.pageDescription);
   document.querySelectorAll('[data-i18n]').forEach((element) => {

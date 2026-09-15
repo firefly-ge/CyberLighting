@@ -37,7 +37,7 @@ const COPY = {
     noAccount: 'No account · no tracking',
     fullscreenUnavailable: 'Fullscreen unavailable',
   },
-  zh: {
+  'zh-CN': {
     pageTitle: 'CyberLighting — 让屏幕呼吸',
     pageDescription: '把闲置屏幕变成一盏安静的呼吸灯。',
     homeAria: 'CyberLighting 首页',
@@ -73,10 +73,56 @@ const COPY = {
     noAccount: '无需账号 · 不做追踪',
     fullscreenUnavailable: '无法进入全屏',
   },
+  'zh-TW': {
+    pageTitle: 'CyberLighting — 讓螢幕呼吸',
+    pageDescription: '把閒置螢幕變成一盞安靜的呼吸燈。',
+    homeAria: 'CyberLighting 首頁',
+    languageAria: '語言選擇',
+    localOnly: '僅本機執行的燈光工具',
+    eyebrow: '留給安靜時刻的一束光',
+    heroTitle: '讓閒置的螢幕呼吸。',
+    heroTitleFirst: '讓閒置的',
+    heroTitleSecond: '螢幕呼吸。',
+    intro: '選擇呼吸循環的兩端顏色。螢幕會在兩者之間安靜、均勻地過渡，沒有多餘視覺干擾。',
+    enterLightMode: '進入燈光模式',
+    hint: '兩種顏色，一個節奏，讓桌面更安靜。',
+    panelAria: '呼吸燈控制面板',
+    liveScene: '即時場景',
+    sceneName: '靜水',
+    animationActive: '動畫正在播放',
+    colourEndpoints: '顏色端點',
+    inhaleToExhale: '吸氣 → 呼氣',
+    inhale: '吸氣色',
+    exhale: '呼氣色',
+    transitionTime: '過渡時間',
+    quick: '快速',
+    slow: '緩慢',
+    glowIntensity: '亮度',
+    lowStimulation: '低刺激模式',
+    lowStimOn: '低刺激模式已開啟——速度和亮度會維持在舒適範圍。',
+    lowStimOff: '擴展亮度已開啟——請在舒適、光線充足的環境中使用。',
+    breatheSlowly: '01 / 緩慢呼吸',
+    fillScreen: '鋪滿螢幕',
+    exitFullscreen: '離開全螢幕',
+    enterFullscreenAria: '進入全螢幕',
+    exitFullscreenAria: '離開全螢幕',
+    noAccount: '無需帳號 · 不做追蹤',
+    fullscreenUnavailable: '無法進入全螢幕',
+  },
 };
 
 export function normalizeLocale(value) {
-  return String(value ?? '').toLowerCase().startsWith('zh') ? 'zh' : DEFAULT_LOCALE;
+  const locale = String(value ?? '').toLowerCase();
+
+  if (locale === 'zh' || locale.startsWith('zh-cn') || locale.startsWith('zh-sg') || locale.startsWith('zh-hans')) {
+    return 'zh-CN';
+  }
+
+  if (locale.startsWith('zh')) {
+    return 'zh-TW';
+  }
+
+  return DEFAULT_LOCALE;
 }
 
 export function getCopy(locale) {
