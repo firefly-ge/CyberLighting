@@ -17,11 +17,16 @@
         </a>
         <div class="topbar-actions">
           <span class="status"><b></b><span data-i18n="localOnly">Local-only light instrument</span></span>
-          <div class="language-switch" role="group" aria-label="Language selector" data-i18n-aria="languageAria">
-            <button type="button" data-locale="en" aria-label="English">EN</button>
-            <button type="button" data-locale="zh-CN" aria-label="简体中文">简</button>
-            <button type="button" data-locale="zh-TW" aria-label="繁體中文">繁</button>
-          </div>
+          <label class="language-switch" for="locale-select">
+            <span class="language-label" data-i18n="language">Language</span>
+            <span class="language-select-wrap">
+              <select id="locale-select" data-locale-select aria-label="Language selector" data-i18n-aria="languageAria">
+                <option value="en">English</option>
+                <option value="zh-CN">简体中文</option>
+                <option value="zh-TW">繁體中文</option>
+              </select>
+            </span>
+          </label>
         </div>
       </header>
 

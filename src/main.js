@@ -19,6 +19,7 @@ const stageButton = document.querySelector('#stage-fullscreen');
 const fullscreenLabel = document.querySelector('#fullscreen-label');
 const safetyNote = document.querySelector('#safety-note');
 const description = document.querySelector('meta[name="description"]');
+const localeSelect = document.querySelector('#locale-select');
 
 function loadSettings() {
   try {
@@ -42,9 +43,7 @@ function applyLocale() {
   document.querySelectorAll('[data-i18n-aria]').forEach((element) => {
     element.setAttribute('aria-label', copy[element.dataset.i18nAria]);
   });
-  document.querySelectorAll('[data-locale]').forEach((button) => {
-    button.classList.toggle('is-active', button.dataset.locale === locale);
-  });
+  localeSelect.value = locale;
   setFullscreenLabel();
   applySettings();
 }
@@ -131,9 +130,7 @@ lowStimInput.addEventListener('change', (event) => updateSettings({ lowStimulati
 fullscreenButton.addEventListener('click', toggleFullscreen);
 stageButton.addEventListener('click', toggleFullscreen);
 document.addEventListener('fullscreenchange', setFullscreenLabel);
-document.querySelectorAll('[data-locale]').forEach((button) => {
-  button.addEventListener('click', () => setLocale(button.dataset.locale));
-});
+localeSelect.addEventListener('change', (event) => setLocale(event.target.value));
 
 applySettings();
 applyLocale();

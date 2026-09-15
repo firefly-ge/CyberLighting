@@ -12,3 +12,21 @@ test('uses a single stage surface with no composited colour or texture layers', 
   assert.doesNotMatch(document, /light-field/);
   assert.doesNotMatch(document, /precision-grid/);
 });
+
+test('uses one language select with English, simplified Chinese, and traditional Chinese', async () => {
+  const document = await readFile(new URL('../index.html', import.meta.url), 'utf8');
+  const script = await readFile(new URL('../src/main.js', import.meta.url), 'utf8');
+
+  assert.match(document, /<label class="language-switch" for="locale-select">/);
+  assert.match(document, /<select id="locale-select"[^>]*data-locale-select/);
+  assert.match(document, /<option value="en">English<\/option>/);
+  assert.match(document, /<option value="zh-CN">简体中文<\/option>/);
+  assert.match(document, /<option value="zh-TW">繁體中文<\/option>/);
+  assert.match(script, /localeSelect\.value = locale/);
+  assert.match(script, /localeSelect\.addEventListener\('change'/);
+});
+
+test('uses Chinese-specific typography rules for Chinese locales', async () => {
+  const stylesheet = await readFile(new URL('../src/styles.css', import.meta.url), 'utf8');
+  assert.match(stylesheet, /html\[lang\^='zh'\]/);
+});

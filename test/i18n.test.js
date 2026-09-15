@@ -20,6 +20,7 @@ test('returns complete simplified Chinese copy for the breathing-light controls'
   assert.equal(copy.inhale, '吸气色');
   assert.equal(copy.exhale, '呼气色');
   assert.equal(copy.enterLightMode, '进入灯光模式');
+  assert.equal(copy.language, '语言');
 });
 
 test('returns traditional Chinese copy for the breathing-light controls', () => {
@@ -28,4 +29,5 @@ test('returns traditional Chinese copy for the breathing-light controls', () => 
   assert.equal(copy.inhale, '吸氣色');
   assert.equal(copy.exhale, '呼氣色');
   assert.equal(copy.enterLightMode, '進入燈光模式');
+  assert.equal(copy.language, '語言');
 });
