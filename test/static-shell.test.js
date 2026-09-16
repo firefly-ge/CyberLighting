@@ -30,3 +30,13 @@ test('uses Chinese-specific typography rules for Chinese locales', async () => {
   const stylesheet = await readFile(new URL('../src/styles.css', import.meta.url), 'utf8');
   assert.match(stylesheet, /html\[lang\^='zh'\]/);
 });
+
+test('includes a local-only photo-to-pixel-light demo', async () => {
+  const demo = await readFile(new URL('../pixel-demo.html', import.meta.url), 'utf8');
+
+  assert.match(demo, /id="image-upload" type="file" accept="image\/\*"/);
+  assert.match(demo, /id="pixel-canvas"/);
+  assert.match(demo, /name="grid-size"/);
+  assert.match(demo, /FileReader/);
+  assert.match(demo, /localStorage/);
+});
