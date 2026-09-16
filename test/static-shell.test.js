@@ -40,3 +40,12 @@ test('includes a local-only photo-to-pixel-light demo', async () => {
   assert.match(demo, /FileReader/);
   assert.match(demo, /localStorage/);
 });
+
+test('includes a looping pixel heart animation demo', async () => {
+  const demo = await readFile(new URL('../heart-demo.html', import.meta.url), 'utf8');
+
+  assert.match(demo, /id="heart-canvas"/);
+  assert.match(demo, /requestAnimationFrame/);
+  assert.match(demo, /function heartDistance/);
+  assert.match(demo, /const GRID_SIZE = 28/);
+});
