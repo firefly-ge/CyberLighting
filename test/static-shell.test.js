@@ -56,3 +56,13 @@ test('includes a looping pixel heart animation demo', async () => {
   assert.match(demo, /const localGlow = \.94 \+ Math\.sin\(seconds \* \.9 \+ column \* \.22 \+ row \* \.18\) \* \.06;/);
   assert.match(demo, /const brightness = inside \? \.08 \+ heartFill \* \.82 \* localGlow : \.05/);
 });
+
+test('includes a unified pixel flower breathing demo', async () => {
+  const demo = await readFile(new URL('../flower-demo.html', import.meta.url), 'utf8');
+
+  assert.match(demo, /id="flower-canvas"/);
+  assert.match(demo, /function flowerDistance/);
+  assert.match(demo, /const breathingSize = \.54 \+ \(Math\.sin\(seconds \* 1\.08 - Math\.PI \/ 2\) \+ 1\) \* \.23;/);
+  assert.match(demo, /const localGlow = \.94 \+ Math\.sin\(seconds \* \.8 \+ column \* \.18 \+ row \* \.15\) \* \.06;/);
+  assert.match(demo, /requestAnimationFrame\(draw\)/);
+});

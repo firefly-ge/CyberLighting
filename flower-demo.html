@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pixel Flower — CyberLighting</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Noto+Sans+SC:wght@500;700&display=swap');
+    *{box-sizing:border-box}body{margin:0;min-width:320px;background:#080708;color:#fff4e8;font-family:'Noto Sans SC',sans-serif}.page{min-height:100vh;display:grid;grid-template-columns:minmax(0,.9fr) minmax(460px,1.1fr);gap:clamp(2rem,8vw,10rem);align-items:center;width:min(1380px,100%);margin:auto;padding:2rem clamp(1.25rem,6vw,6rem)}.brand{position:absolute;top:2rem;color:#fff0e7;font-size:.82rem;font-weight:700}.eyebrow{color:#ffa26d;font: .65rem 'DM Mono';letter-spacing:.13em}h1{font-size:clamp(3.2rem,7vw,6.8rem);line-height:1.04;letter-spacing:-.08em;margin:1rem 0}h1 strong{color:#ff9564}.copy{max-width:470px;color:#d7c5b8;line-height:1.9}.stage{position:relative;padding:clamp(1rem,2.8vw,1.8rem);border:1px solid #ffcfb533;border-radius:12px;background:#1d0d0933}.stage:before{content:'PIXEL FLOWER / 28 × 28';position:absolute;top:1.2rem;left:1.35rem;color:#ffe4d499;font:.57rem 'DM Mono';letter-spacing:.08em}.stage:after{content:'BLOOMING · BREATHING';position:absolute;right:1.35rem;bottom:1.15rem;color:#ffa26d;font:.57rem 'DM Mono';letter-spacing:.08em}canvas{display:block;width:100%;aspect-ratio:1;image-rendering:pixelated;background:#100907;border-radius:6px}@media(max-width:900px){.page{grid-template-columns:1fr;padding-top:6rem}.stage{max-width:610px}}
+  </style>
+</head><body><div class="brand">✦ CyberLighting</div><main class="page"><section><p class="eyebrow">A LIVING GRID / DEMO 03</p><h1>让一朵花<br><strong>逐格盛开。</strong></h1><p class="copy">整朵花共享同一个呼吸节奏。相邻像素保持接近的暖色亮度，花瓣随着呼吸平滑舒展与收拢。</p></section><section class="stage" aria-label="动态像素花"><canvas id="flower-canvas" width="840" height="840"></canvas></section></main>
+<script>
+const GRID_SIZE=28,canvas=document.querySelector('#flower-canvas'),context=canvas.getContext('2d'),CELL=canvas.width/GRID_SIZE;
+function flowerDistance(x,y){const a=Math.atan2(y,x),r=Math.hypot(x,y);return r-(.53+.18*Math.cos(6*a));}
+function draw(timestamp){const seconds=timestamp/1000;const breathingSize = .54 + (Math.sin(seconds * 1.08 - Math.PI / 2) + 1) * .23;context.fillStyle='#100907';context.fillRect(0,0,canvas.width,canvas.height);for(let row=0;row<GRID_SIZE;row++)for(let column=0;column<GRID_SIZE;column++){const x=(column-13.5)/(GRID_SIZE*.24),y=(13.5-row)/(GRID_SIZE*.24);const inside=flowerDistance(x,y)<=0;const px=x/breathingSize,py=y/breathingSize;const fill=Math.max(0,Math.min(1,.5-flowerDistance(px,py)*4));const localGlow = .94 + Math.sin(seconds * .8 + column * .18 + row * .15) * .06;const brightness=inside?.08+fill*.86*localGlow:.05;const red=Math.round(80+175*brightness),green=Math.round(25+104*brightness),blue=Math.round(12+55*brightness);context.fillStyle=`rgb(${red} ${green} ${blue})`;context.fillRect(column*CELL+3,row*CELL+3,CELL-6,CELL-6)}requestAnimationFrame(draw)}draw(0);
+</script></body></html>
