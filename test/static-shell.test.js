@@ -48,4 +48,7 @@ test('includes a looping pixel heart animation demo', async () => {
   assert.match(demo, /requestAnimationFrame/);
   assert.match(demo, /function heartDistance/);
   assert.match(demo, /const GRID_SIZE = 28/);
+  assert.match(demo, /const scale = \.82 \+ grow \* \.34/);
+  assert.match(demo, /draw\(0\);/);
+  assert.match(demo, /const brightness = inside \? \.74 \+ flicker \* \.26 : \.05/);
 });

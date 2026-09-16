@@ -38,7 +38,7 @@
         const seconds = timestamp / 1000;
         const progress = (seconds % LOOP_SECONDS) / LOOP_SECONDS;
         const grow = ease(progress < .72 ? progress / .72 : 1 - (progress - .72) / .28);
-        const scale = .39 + grow * .76;
+        const scale = .82 + grow * .34;
         context.fillStyle = '#0b0708';
         context.fillRect(0, 0, canvas.width, canvas.height);
         for (let row = 0; row < GRID_SIZE; row++) for (let column = 0; column < GRID_SIZE; column++) {
@@ -47,8 +47,7 @@
           const inside = heartDistance(x, y) <= 0;
           const phase = column * .47 + row * .31;
           const flicker = .72 + .28 * Math.sin(seconds * 2.2 + phase);
-          const awakening = Math.max(0, Math.min(1, grow * 1.55 - (Math.hypot(column - 13.5, row - 14) / 20) * .34));
-          const brightness = inside ? (.5 + flicker * .5) * awakening : .05;
+        const brightness = inside ? .74 + flicker * .26 : .05;
           const red = Math.round(78 + 177 * brightness);
           const green = Math.round(13 + 56 * brightness);
           const blue = Math.round(22 + 66 * brightness);
@@ -58,7 +57,7 @@
         requestAnimationFrame(draw);
       }
 
-      requestAnimationFrame(draw);
+      draw(0);
     </script>
   </body>
 </html>
