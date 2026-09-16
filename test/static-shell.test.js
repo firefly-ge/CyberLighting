@@ -48,7 +48,9 @@ test('includes a looping pixel heart animation demo', async () => {
   assert.match(demo, /requestAnimationFrame/);
   assert.match(demo, /function heartDistance/);
   assert.match(demo, /const GRID_SIZE = 28/);
-  assert.match(demo, /const scale = \.82 \+ grow \* \.34/);
+  assert.match(demo, /const scale = \.96;/);
   assert.match(demo, /draw\(0\);/);
-  assert.match(demo, /const brightness = inside \? \.74 \+ flicker \* \.26 : \.05/);
+  assert.match(demo, /const cellTempo = 1\.2 \+ \(\(column \* 13 \+ row \* 7\) % 9\) \* \.08;/);
+  assert.match(demo, /const cellPulse = \(Math\.sin\(seconds \* cellTempo \* 2\.4 \+ cellPhase\) \+ 1\) \/ 2;/);
+  assert.match(demo, /const brightness = inside \? \.2 \+ cellPulse \* \.8 : \.05/);
 });
