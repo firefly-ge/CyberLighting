@@ -48,9 +48,12 @@ test('includes a looping pixel heart animation demo', async () => {
   assert.match(demo, /requestAnimationFrame/);
   assert.match(demo, /function heartDistance/);
   assert.match(demo, /const GRID_SIZE = 28/);
-  assert.match(demo, /const scale = \.96;/);
+  assert.doesNotMatch(demo, /const scale =/);
   assert.match(demo, /draw\(0\);/);
   assert.match(demo, /const cellTempo = 1\.2 \+ \(\(column \* 13 \+ row \* 7\) % 9\) \* \.08;/);
+  assert.match(demo, /const edgeDelay = Math\.min\(\.62, Math\.hypot\(x, y \+ \.14\) \* \.46\);/);
+  assert.match(demo, /const globalBreath = \.36 \+ \(Math\.sin\(seconds \* 1\.25 - Math\.PI \/ 2\) \+ 1\) \* \.32;/);
+  assert.match(demo, /const activation = Math\.max\(0, Math\.min\(1, \(globalBreath \+ localDrift - edgeDelay\) \/ \.42\)\);/);
   assert.match(demo, /const cellPulse = \(Math\.sin\(seconds \* cellTempo \* 2\.4 \+ cellPhase\) \+ 1\) \/ 2;/);
-  assert.match(demo, /const brightness = inside \? \.2 \+ cellPulse \* \.8 : \.05/);
+  assert.match(demo, /const brightness = inside \? \.08 \+ activation \* \(\.38 \+ cellPulse \* \.54\) : \.05/);
 });
