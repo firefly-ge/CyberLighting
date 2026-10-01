@@ -2,6 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 
+const PAGES = ['index.html', 'explore.html', 'create.html', 'player.html', 'library.html', 'pixelize.html', 'studio.html', 'rooms.html'];
+
 test('prototype landing page loads relative shared assets and exposes primary navigation', async () => {
   const html = await readFile(new URL('../prototype/index.html', import.meta.url), 'utf8');
   assert.match(html, /href="\.\/assets\/prototype\.css"/);
@@ -58,4 +60,14 @@ test('advanced pages communicate editor and room concepts', async () => {
   assert.match(rooms, /data-room-code/);
   assert.match(rooms, /data-device-list/);
   assert.match(rooms, /Create a room/);
+});
+
+test('every prototype page has landmarks, locale control, title, and live feedback', async () => {
+  for (const page of PAGES) {
+    const html = await readFile(new URL(`../prototype/${page}`, import.meta.url), 'utf8');
+    assert.match(html, /<title>[^<]+<\/title>/);
+    assert.match(html, /<main/);
+    assert.match(html, /data-locale-select/);
+    assert.match(html, /data-toast/);
+  }
 });

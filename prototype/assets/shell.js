@@ -1,3 +1,5 @@
+import { applyPrototypeLocale, normalizePrototypeLocale } from './i18n.js';
+
 const LOCALE_KEY = 'cyberlighting.prototype.locale';
 
 export function showPrototypeToast(message) {
@@ -21,12 +23,12 @@ export async function safeRequestFullscreen(element) {
 
 export function initShell() {
   const select = document.querySelector('[data-locale-select]');
-  const stored = localStorage.getItem(LOCALE_KEY) || 'en';
-  document.documentElement.lang = stored;
+  const stored = normalizePrototypeLocale(localStorage.getItem(LOCALE_KEY) || navigator.language || 'en');
+  applyPrototypeLocale(stored);
   if (select) select.value = stored;
   select?.addEventListener('change', () => {
     localStorage.setItem(LOCALE_KEY, select.value);
-    document.documentElement.lang = select.value;
+    applyPrototypeLocale(select.value);
   });
 
   const menu = document.querySelector('[data-mobile-menu]');
@@ -39,4 +41,3 @@ export function initShell() {
 }
 
 initShell();
-
