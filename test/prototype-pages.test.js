@@ -38,3 +38,13 @@ test('player has an accessible auto-hiding control surface', async () => {
   assert.match(html, /data-share-scene/);
   assert.match(html, /Remix this scene/);
 });
+
+test('library and pixelize pages expose their primary states', async () => {
+  const library = await readFile(new URL('../prototype/library.html', import.meta.url), 'utf8');
+  const pixelize = await readFile(new URL('../prototype/pixelize.html', import.meta.url), 'utf8');
+  assert.match(library, /data-library-grid/);
+  assert.match(library, /data-library-empty/);
+  assert.match(pixelize, /type="file"[^>]+accept="image\/\*"/);
+  assert.match(pixelize, /data-density-mode/);
+  assert.match(pixelize, /data-pixel-preview/);
+});
