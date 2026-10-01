@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="./assets/prototype.css" />
+    <title>Create a screen — CyberLighting</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <a class="brand" href="./index.html"><span class="brand-grid" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span>CyberLighting</span></a>
+      <nav class="site-nav" data-navigation><a href="./explore.html">Explore</a><a href="./create.html" aria-current="page">Create</a><a href="./library.html">My Screens</a></nav>
+      <div class="header-actions"><select class="locale-select" data-locale-select aria-label="Language"><option value="en">EN</option><option value="zh-CN">简中</option><option value="zh-TW">繁中</option></select><button class="menu-button" data-mobile-menu type="button" aria-expanded="false">Menu</button></div>
+    </header>
+    <main id="main" class="creator-shell">
+      <section class="creator-stage" aria-label="Live scene preview">
+        <div class="creator-meta"><span class="prototype-badge">Quick create</span><span data-scene-title>Heart Signal</span></div>
+        <canvas data-scene-canvas aria-label="Current animated scene"></canvas>
+        <span class="resolution-readout" data-resolution-readout>Adaptive grid / live viewport</span>
+      </section>
+      <aside class="creator-panel">
+        <header><span class="micro-label">Scene controls</span><h1>Make it yours.</h1><p>Change the feeling. The scene responds immediately.</p></header>
+        <form data-create-form>
+          <div class="control-block"><span class="control-title">Color signal</span><div class="color-controls"><label>Primary<input name="primary" type="color" value="#18050A" /></label><label>Glow<input name="secondary" type="color" value="#FF476F" /></label></div></div>
+          <label class="control-block"><span class="control-title">Motion <output data-speed-output>0.8×</output></span><input name="speed" type="range" min="0.6" max="2.4" step="0.1" value="0.8" /></label>
+          <label class="control-block"><span class="control-title">Brightness <output data-brightness-output>72%</output></span><input name="brightness" type="range" min="10" max="100" value="72" /></label>
+          <label class="control-block"><span class="control-title">Pixel character</span><select name="density"><option value="adaptive">Auto — fits this screen</option><option value="coarse">Bold pixels</option><option value="balanced">Balanced</option><option value="fine">Fine detail</option><option value="custom">Custom</option></select></label>
+          <div class="custom-density" data-custom-density hidden><label>Rows<input name="rows" type="number" min="1" value="120" /></label><label>Columns<input name="columns" type="number" min="1" value="200" /></label><small>Performance depends on this device and scene.</small></div>
+          <label class="control-block" data-text-control hidden><span class="control-title">Message</span><input name="text" type="text" maxlength="40" value="" /></label>
+        </form>
+        <div class="creator-actions"><button class="button" type="button" data-save-scene>Save to My Screens</button><a class="button button-primary" href="./player.html" data-open-player>Open player →</a></div>
+      </aside>
+    </main>
+    <div class="toast" data-toast role="status" aria-live="polite" hidden></div>
+    <script type="module" src="./assets/shell.js"></script>
+    <script type="module" src="./assets/pages/create.js"></script>
+  </body>
+</html>
+

@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <link rel="stylesheet" href="./assets/prototype.css" />
+    <title>Live scene — CyberLighting</title>
+  </head>
+  <body class="player-body">
+    <main class="player-stage" data-player-stage>
+      <canvas data-scene-canvas aria-label="CyberLighting full screen scene"></canvas>
+      <header class="player-top" data-player-controls>
+        <a class="brand" href="./index.html"><span class="brand-grid" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span>CyberLighting</span></a>
+        <span class="scene-status"><b></b><span data-scene-name>Heart Signal</span></span>
+      </header>
+      <nav class="player-controls" data-player-controls aria-label="Playback controls">
+        <button class="player-control" type="button" data-toggle-play aria-label="Pause animation">Ⅱ</button>
+        <button class="player-control" type="button" data-fullscreen aria-label="Enter fullscreen">⛶</button>
+        <a class="player-control player-edit" href="./create.html" data-edit-scene>Edit</a>
+        <button class="player-control" type="button" data-share-scene>Share</button>
+        <a class="button button-primary button-small" href="./create.html" data-remix-scene>Remix this scene</a>
+      </nav>
+      <span class="player-hint" data-player-controls>Move, tap, or press a key to reveal controls</span>
+    </main>
+    <div class="toast" data-toast role="status" aria-live="polite" hidden></div>
+    <script type="module" src="./assets/shell.js"></script>
+    <script type="module" src="./assets/pages/player.js"></script>
+  </body>
+</html>
+
