@@ -10,7 +10,7 @@
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header">
       <a class="brand" href="./index.html"><span class="brand-grid" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span>CyberLighting</span></a>
-      <nav class="site-nav" data-navigation><a href="./explore.html">Explore</a><a href="./create.html" aria-current="page">Create</a><a href="./library.html">My Screens</a></nav>
+      <nav class="site-nav" data-navigation><a href="./explore.html" data-i18n="explore">Explore</a><a href="./create.html" aria-current="page" data-i18n="create">Create</a><a href="./library.html" data-i18n="myScreens">My Screens</a></nav>
       <div class="header-actions"><select class="locale-select" data-locale-select aria-label="Language"><option value="en">EN</option><option value="zh-CN">简中</option><option value="zh-TW">繁中</option></select><button class="menu-button" data-mobile-menu type="button" aria-expanded="false">Menu</button></div>
     </header>
     <main id="main" class="creator-shell">
@@ -20,7 +20,7 @@
         <span class="resolution-readout" data-resolution-readout>Adaptive grid / live viewport</span>
       </section>
       <aside class="creator-panel">
-        <header><span class="micro-label">Scene controls</span><h1>Make it yours.</h1><p>Change the feeling. The scene responds immediately.</p></header>
+        <header><span class="micro-label" data-i18n="liveScene">Scene controls</span><h1 data-i18n="makeYours">Make it yours.</h1><p>Change the feeling. The scene responds immediately.</p></header>
         <form data-create-form>
           <div class="control-block"><span class="control-title">Color signal</span><div class="color-controls"><label>Primary<input name="primary" type="color" value="#18050A" /></label><label>Glow<input name="secondary" type="color" value="#FF476F" /></label></div></div>
           <label class="control-block"><span class="control-title">Motion <output data-speed-output>0.8×</output></span><input name="speed" type="range" min="0.6" max="2.4" step="0.1" value="0.8" /></label>
@@ -37,4 +37,3 @@
     <script type="module" src="./assets/pages/create.js"></script>
   </body>
 </html>
-

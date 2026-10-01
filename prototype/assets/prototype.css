@@ -197,7 +197,6 @@ button { cursor: pointer; }
   .menu-button { display: inline-flex; }
   .site-nav { position: absolute; top: 72px; right: 1rem; display: none; width: min(260px, calc(100vw - 2rem)); padding: .6rem; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); }
   .site-nav[data-open] { display: grid; }
-  .header-actions .locale-select { display: none; }
   .hero-layout { grid-template-columns: 1fr; padding-top: 3rem; }
   .canvas-frame { min-height: min(60vh, 520px); }
   .section-heading { align-items: start; flex-direction: column; }

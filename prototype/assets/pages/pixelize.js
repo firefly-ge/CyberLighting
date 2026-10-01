@@ -1,4 +1,5 @@
 import { showPrototypeToast } from '../shell.js';
+import { validateImageFile } from '../image-utils.js';
 
 const input = document.querySelector('[data-image-upload]');
 const canvas = document.querySelector('[data-pixel-preview] canvas');
@@ -33,9 +34,12 @@ function draw() {
 }
 
 input.addEventListener('change', () => {
-  const file = input.files?.[0]; if (!file) return;
+  const file = input.files?.[0];
+  const validation = validateImageFile(file);
+  if (validation) { showPrototypeToast(validation); return; }
   const reader = new FileReader();
-  reader.addEventListener('load', () => { const next = new Image(); next.onload = () => { image = next; prompt.hidden = true; draw(); }; next.src = reader.result; });
+  reader.addEventListener('error', () => showPrototypeToast('This image could not be read.'));
+  reader.addEventListener('load', () => { const next = new Image(); next.onload = () => { image = next; prompt.hidden = true; draw(); }; next.onerror = () => showPrototypeToast('This image format could not be decoded.'); next.src = reader.result; });
   reader.readAsDataURL(file);
 });
 document.querySelectorAll('[data-density]').forEach((button) => button.addEventListener('click', () => {
@@ -48,4 +52,3 @@ document.querySelector('[data-reset-image]').addEventListener('click', () => { i
 document.querySelector('[data-pixel-continue]').addEventListener('click', () => showPrototypeToast('Static preview: this would open Quick Create.'));
 window.addEventListener('resize', draw);
 draw();
-

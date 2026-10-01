@@ -1,20 +1,14 @@
 import { getScene } from '../catalog.js';
 import { createSceneRenderer } from '../renderer.js';
 import { showPrototypeToast } from '../shell.js';
+import { normalizeSceneState, serializeSceneState } from '../scene-state.js';
 
 const STORAGE_KEY = 'cyberlighting.prototype.scenes';
 const form = document.querySelector('[data-create-form]');
 const params = new URLSearchParams(location.search);
 const scene = getScene(params.get('scene'));
-const state = {
-  scene: scene.id,
-  primary: params.get('primary') || scene.colors[0],
-  secondary: params.get('secondary') || scene.colors[1],
-  speed: params.get('speed') || '.8',
-  brightness: params.get('brightness') || '72',
-  density: params.get('density') || 'adaptive',
-  text: params.get('text') || scene.text || '',
-};
+const state = normalizeSceneState(params, scene);
+const recoveredDensity = params.has('density') && params.get('density') !== state.density;
 
 for (const [name, value] of Object.entries(state)) if (form.elements[name]) form.elements[name].value = value;
 document.querySelector('[data-scene-title]').textContent = scene.title;
@@ -29,8 +23,7 @@ function sync() {
   document.querySelector('[data-custom-density]').hidden = state.density !== 'custom';
   document.querySelector('[data-resolution-readout]').textContent = state.density === 'custom' ? `Custom intent / ${form.elements.columns.value} × ${form.elements.rows.value}` : `${form.elements.density.selectedOptions[0].text} / live viewport`;
   renderer.update({ ...scene, colors: [state.primary, state.secondary] }, { speed: state.speed, brightness: Number(state.brightness) / 100, density: state.density, text: state.text });
-  const query = new URLSearchParams(state);
-  document.querySelector('[data-open-player]').href = `./player.html?${query}`;
+  document.querySelector('[data-open-player]').href = `./player.html?${serializeSceneState(state)}`;
 }
 
 form.addEventListener('input', sync);
@@ -42,4 +35,4 @@ document.querySelector('[data-save-scene]').addEventListener('click', () => {
   showPrototypeToast('Saved locally to My Screens.');
 });
 sync();
-
+if (recoveredDensity) showPrototypeToast('Unsupported density setting recovered to Auto.');

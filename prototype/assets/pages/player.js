@@ -1,25 +1,17 @@
 import { getScene } from '../catalog.js';
 import { createSceneRenderer } from '../renderer.js';
 import { safeRequestFullscreen, showPrototypeToast } from '../shell.js';
+import { normalizeSceneState, serializeSceneState } from '../scene-state.js';
 
 const params = new URLSearchParams(location.search);
 const scene = getScene(params.get('scene'));
-const validHex = (value, fallback) => /^#[0-9A-F]{6}$/i.test(value || '') ? value : fallback;
-const state = {
-  scene: scene.id,
-  primary: validHex(params.get('primary'), scene.colors[0]),
-  secondary: validHex(params.get('secondary'), scene.colors[1]),
-  speed: params.get('speed') || '.8',
-  brightness: params.get('brightness') || '72',
-  density: params.get('density') || 'adaptive',
-  text: params.get('text') || scene.text || '',
-};
+const state = normalizeSceneState(params, scene);
 const stage = document.querySelector('[data-player-stage]');
 const renderer = createSceneRenderer(document.querySelector('[data-scene-canvas]'), { ...scene, colors: [state.primary, state.secondary] }, { speed: state.speed, brightness: Number(state.brightness) / 100, density: state.density, text: state.text, reducedMotion: matchMedia('(prefers-reduced-motion: reduce)').matches });
 let playing = true;
 let hideTimer;
 const controls = [...document.querySelectorAll('[data-player-controls]')];
-const query = new URLSearchParams(state).toString();
+const query = serializeSceneState(state);
 
 document.querySelector('[data-scene-name]').textContent = scene.title;
 document.querySelector('[data-edit-scene]').href = `./create.html?${query}`;
@@ -51,4 +43,3 @@ document.querySelector('[data-share-scene]').addEventListener('click', async () 
 
 renderer.start();
 revealControls();
-

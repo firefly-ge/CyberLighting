@@ -80,3 +80,21 @@ test('all internal prototype page links resolve to files', async () => {
     }
   }
 });
+
+test('homepage exposes every advanced prototype experience', async () => {
+  const html = await readFile(new URL('../prototype/index.html', import.meta.url), 'utf8');
+  for (const page of ['pixelize.html', 'studio.html', 'rooms.html']) assert.match(html, new RegExp(`href="\\./${page}"`));
+});
+
+test('all pages bind visible copy to the shared locale system', async () => {
+  for (const page of PAGES) {
+    const html = await readFile(new URL(`../prototype/${page}`, import.meta.url), 'utf8');
+    assert.equal((html.match(/data-i18n=/g) || []).length >= 3, true, `${page} needs shared translations`);
+  }
+});
+
+test('image chooser remains keyboard focusable', async () => {
+  const html = await readFile(new URL('../prototype/pixelize.html', import.meta.url), 'utf8');
+  assert.doesNotMatch(html, /type="file"[^>]+hidden/);
+  assert.match(html, /type="file"[^>]+class="sr-only"/);
+});

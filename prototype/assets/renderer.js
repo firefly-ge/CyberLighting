@@ -20,8 +20,12 @@ function hexToRgb(hex) {
   return [(number >> 16) & 255, (number >> 8) & 255, number & 255];
 }
 
-function mix(a, b, t, alpha = 1) {
-  const channels = a.map((value, index) => Math.round(value + (b[index] - value) * t));
+export function blendWithBrightness(a, b, t, brightness = 1) {
+  return a.map((value, index) => Math.round((value + (b[index] - value) * t) * brightness));
+}
+
+function mix(a, b, t, alpha = 1, brightness = 1) {
+  const channels = blendWithBrightness(a, b, t, brightness);
   return `rgba(${channels[0]},${channels[1]},${channels[2]},${alpha})`;
 }
 
@@ -54,6 +58,7 @@ export function createSceneRenderer(canvas, initialScene, initialOptions = {}) {
   let options = { ...normalizeRenderOptions(initialOptions), customCellSize: initialOptions.customCellSize, text: initialOptions.text };
   let frame = 0;
   let running = false;
+  let playingIntent = false;
   let width = 1;
   let height = 1;
   let pixelRatio = 1;
@@ -73,14 +78,14 @@ export function createSceneRenderer(canvas, initialScene, initialOptions = {}) {
     const seconds = timestamp / 1000 * options.speed;
     const pulse = options.reducedMotion ? .58 : (Math.sin(seconds * 1.25 - Math.PI / 2) + 1) / 2;
     const colors = scene.colors?.map(hexToRgb) ?? [hexToRgb('#090B0D'), hexToRgb('#C8FF32')];
-    context.fillStyle = mix(colors[0], colors[1], pulse * .12);
+    context.fillStyle = mix(colors[0], colors[1], pulse * .12, 1, options.brightness);
     context.fillRect(0, 0, width, height);
 
     if (scene.engine === 'breathe') {
-      context.fillStyle = mix(colors[0], colors[1], .18 + pulse * .82);
+      context.fillStyle = mix(colors[0], colors[1], .18 + pulse * .82, 1, options.brightness);
       context.fillRect(0, 0, width, height);
     } else if (scene.engine === 'text') {
-      context.fillStyle = mix(colors[0], colors[1], .18 + pulse * .82);
+      context.fillStyle = mix(colors[0], colors[1], .18 + pulse * .82, 1, options.brightness);
       context.textAlign = 'center';
       context.textBaseline = 'middle';
       context.font = `800 ${Math.max(34, Math.min(width / 8, 110))}px ${getComputedStyle(document.body).fontFamily}`;
@@ -105,7 +110,7 @@ export function createSceneRenderer(canvas, initialScene, initialOptions = {}) {
             const shape = flowerField(x, y, .74 + pulse * .25);
             energy = shape <= 0 ? .68 + pulse * .32 : .035;
           }
-          context.fillStyle = mix(colors[0], colors[1], Math.min(1, energy * options.brightness));
+          context.fillStyle = mix(colors[0], colors[1], Math.min(1, energy), 1, options.brightness);
           context.fillRect(column * cell + gap, row * cell + gap, cell - gap * 2, cell - gap * 2);
         }
       }
@@ -119,13 +124,15 @@ export function createSceneRenderer(canvas, initialScene, initialOptions = {}) {
   }
 
   function start() {
-    if (running) return;
+    playingIntent = true;
+    if (running || document.hidden) return;
     running = true;
     if (options.reducedMotion) drawFrame(0);
     else frame = requestAnimationFrame(loop);
   }
 
   function stop() {
+    playingIntent = false;
     running = false;
     cancelAnimationFrame(frame);
   }
@@ -137,13 +144,27 @@ export function createSceneRenderer(canvas, initialScene, initialOptions = {}) {
   }
 
   function onVisibility() {
-    if (document.hidden) stop(); else start();
+    if (document.hidden) {
+      running = false;
+      cancelAnimationFrame(frame);
+    } else if (playingIntent) {
+      running = true;
+      if (options.reducedMotion) drawFrame(0); else frame = requestAnimationFrame(loop);
+    }
   }
 
   document.addEventListener('visibilitychange', onVisibility);
   window.addEventListener('resize', resize);
+  const resizeObserver = typeof ResizeObserver === 'function' ? new ResizeObserver(resize) : null;
+  resizeObserver?.observe(canvas);
   resize();
 
-  return { start, stop, resize, update, drawFrame };
-}
+  function destroy() {
+    stop();
+    resizeObserver?.disconnect();
+    document.removeEventListener('visibilitychange', onVisibility);
+    window.removeEventListener('resize', resize);
+  }
 
+  return { start, stop, resize, update, drawFrame, destroy };
+}
