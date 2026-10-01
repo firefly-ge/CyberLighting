@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { access, readFile } from 'node:fs/promises';
 
 const PAGES = ['index.html', 'explore.html', 'create.html', 'player.html', 'library.html', 'pixelize.html', 'studio.html', 'rooms.html'];
 
@@ -69,5 +69,14 @@ test('every prototype page has landmarks, locale control, title, and live feedba
     assert.match(html, /<main/);
     assert.match(html, /data-locale-select/);
     assert.match(html, /data-toast/);
+  }
+});
+
+test('all internal prototype page links resolve to files', async () => {
+  for (const page of PAGES) {
+    const html = await readFile(new URL(`../prototype/${page}`, import.meta.url), 'utf8');
+    for (const match of html.matchAll(/href="\.\/([^"?#]+\.html)/g)) {
+      await access(new URL(`../prototype/${match[1]}`, import.meta.url));
+    }
   }
 });
