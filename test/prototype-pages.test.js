@@ -48,3 +48,14 @@ test('library and pixelize pages expose their primary states', async () => {
   assert.match(pixelize, /data-density-mode/);
   assert.match(pixelize, /data-pixel-preview/);
 });
+
+test('advanced pages communicate editor and room concepts', async () => {
+  const studio = await readFile(new URL('../prototype/studio.html', import.meta.url), 'utf8');
+  const rooms = await readFile(new URL('../prototype/rooms.html', import.meta.url), 'utf8');
+  assert.match(studio, /data-tool="brush"/);
+  assert.match(studio, /data-layer-list/);
+  assert.match(studio, /data-density-mode/);
+  assert.match(rooms, /data-room-code/);
+  assert.match(rooms, /data-device-list/);
+  assert.match(rooms, /Create a room/);
+});
