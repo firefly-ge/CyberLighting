@@ -12,3 +12,12 @@ test('prototype landing page loads relative shared assets and exposes primary na
   assert.match(html, /data-locale-select/);
   assert.match(html, /data-primary-action/);
 });
+
+test('explore page exposes filters and reusable template actions', async () => {
+  const html = await readFile(new URL('../prototype/explore.html', import.meta.url), 'utf8');
+  assert.match(html, /data-category-filters/);
+  assert.match(html, /data-template-grid/);
+  assert.match(html, /data-template-card/);
+  assert.match(html, /Use template/);
+  assert.match(html, /Fullscreen/);
+});
